@@ -1,40 +1,50 @@
-Twitter Sentiment Analysis System
+# Twitter Sentiment Analysis System
 
-A machine learning-based web application that analyzes the sentiment of tweets and classifies them as Positive or Negative using Natural Language Processing (NLP) and Logistic Regression. The project includes a complete model training pipeline and an interactive Streamlit web application for real-time predictions. The system achieves approximately 70.4% accuracy on the test dataset.
+A Machine Learning and NLP-based web application that analyzes tweets and classifies them into **Positive** or **Negative** sentiments using **Logistic Regression** and **TF-IDF Vectorization**.
 
-🚀 Features
-✅ Real-time sentiment analysis for custom text input
-✅ Twitter user tweet lookup from dataset
-✅ NLP preprocessing pipeline
-✅ TF-IDF vectorization
-✅ Logistic Regression classifier
-✅ Interactive Streamlit interface
-✅ Cached model loading for improved performance
-✅ Saved model and vectorizer using Pickle
-🏗️ Project Architecture
+---
+
+## 🚀 Features
+
+- Real-time sentiment analysis for custom text input
+- Twitter user tweet lookup from dataset
+- Natural Language Processing (NLP) pipeline
+- TF-IDF feature extraction
+- Logistic Regression classifier
+- Interactive Streamlit web application
+- Cached model loading for improved performance
+- Saved model and vectorizer using Pickle
+
+---
+
+## 🏗️ System Architecture
+
+```text
 Raw Twitter Dataset
         │
         ▼
-Text Cleaning & Preprocessing
+Text Preprocessing
 (Regex + Stopword Removal + Stemming)
         │
         ▼
 TF-IDF Vectorization
         │
         ▼
-Logistic Regression Training
+Logistic Regression Model
         │
         ▼
-Export Model Files
-(model.pkl & vectorizer.pkl)
+Save Model (model.pkl)
+Save Vectorizer (vectorizer.pkl)
         │
         ▼
 Streamlit Web Application
-(app.py)
+```
 
-The system consists of two main components: a model training pipeline and a Streamlit web interface.
+---
 
-📂 Project Structure
+## 📂 Project Structure
+
+```text
 Twitter-Sentiment-Analysis/
 │
 ├── app.py
@@ -44,146 +54,218 @@ Twitter-Sentiment-Analysis/
 ├── tweeter-dataset.zip
 ├── requirements.txt
 └── README.md
-🛠️ Technologies Used
-Python
-Streamlit
-Scikit-Learn
-NLTK
-Pandas
-NumPy
-Pickle
-Regular Expressions (Regex)
-🔍 NLP Preprocessing Steps
+```
 
-The text preprocessing pipeline performs:
+---
 
-Removal of special characters using Regex
-Conversion to lowercase
-Tokenization
-Stopword removal
-Porter Stemming
+## 🛠️ Technologies Used
+
+- Python
+- Streamlit
+- Scikit-Learn
+- NLTK
+- Pandas
+- NumPy
+- Pickle
+- Regular Expressions (Regex)
+
+---
+
+## 🔍 NLP Preprocessing
+
+The preprocessing pipeline includes:
+
+- Removing special characters using Regex
+- Converting text to lowercase
+- Tokenization
+- Stopword removal
+- Porter Stemming
 
 Example:
 
-"Studying", "Studies", "Studied"
-        ↓
-      "studi"
+```python
+"studying" → "studi"
+"studies"  → "studi"
+"studied"  → "studi"
+```
 
-This normalization improves model performance by reducing word variations.
+---
 
-📊 Dataset
-Dataset contains positive and negative tweets.
-2,500 positive tweets and 2,500 negative tweets were selected to create a balanced dataset of 5,000 samples.
+## 📊 Dataset
+
+- Balanced dataset containing:
+  - 2,500 Positive tweets
+  - 2,500 Negative tweets
+- Total: **5,000 tweets**
+
 Target labels:
-0 → Negative
-1 → Positive
-🧠 Machine Learning Model
-Feature Extraction
+
+- `0` → Negative
+- `1` → Positive
+
+---
+
+## 🧠 Machine Learning Model
+
+### Feature Extraction
+
+```python
 vectorizer = TfidfVectorizer()
+```
 
-TF-IDF converts text into numerical vectors suitable for machine learning. The vectorizer is fitted only on training data to prevent data leakage.
+### Classification Model
 
-Classification Model
+```python
 model = LogisticRegression(max_iter=1000)
+```
 
-The model was trained with:
+### Training Configuration
 
-Train/Test Split: 80/20
-Stratified Sampling
-Random State: 42
+- Train/Test Split: **80/20**
+- Stratified Sampling
+- Random State: **42**
 
-These settings ensure reproducibility and balanced class distribution.
+---
 
-📈 Model Performance
-Metric	Value
-Accuracy	70.40%
+## 📈 Model Performance
 
-The trained Logistic Regression model achieved approximately 70.4% testing accuracy.
+| Metric | Score |
+|--------|-------|
+| Accuracy | **70.40%** |
 
-💾 Model Serialization
+---
 
-After training, the model and vectorizer are stored as:
+## 💾 Saved Files
 
+```text
 model.pkl
 vectorizer.pkl
+```
 
-These files are loaded by the Streamlit application for inference.
+These files are loaded by the Streamlit application for prediction.
 
-🌐 Streamlit Web Application
-Mode 1: Input Text
+---
 
-Users can enter any text and receive sentiment predictions instantly.
+## 🌐 Streamlit Application
+
+### Mode 1: Input Text
 
 Example:
 
-Input:
-"I am absolutely thrilled with this new development stack!"
+**Input:**
 
-Output:
+```text
+I am absolutely thrilled with this new development stack!
+```
+
+**Output:**
+
+```text
 POSITIVE SENTIMENT
-Input:
-"This product is completely broken."
+```
 
-Output:
-NEGATIVE SENTIMENT
+---
 
-The application provides color-coded sentiment responses.
+### Mode 2: Twitter User Search
 
-Mode 2: User Tweet Lookup
-
-Users can search tweets by username from the dataset and view sentiment predictions for retrieved tweets. The application displays up to five matching records.
+Search tweets by username from the dataset and view sentiment predictions.
 
 Example:
 
+```text
 Username: scotthamilton
+Found 5 tweets
+```
 
-Found 5 records
-Tweet 1 → Negative
-Tweet 2 → Negative
-...
-⚡ Performance Optimization
+---
 
-The Streamlit application uses:
+## ⚡ Performance Optimization
 
+The application uses Streamlit caching:
+
+```python
 @st.cache_resource
 @st.cache_data
+```
 
-to cache models and datasets in memory, improving execution speed and reducing repeated file loading.
+This improves loading speed and avoids repeated file processing.
 
-🚀 Installation
-Clone Repository
-git clone https://github.com/your-username/twitter-sentiment-analysis.git
+---
+
+## 🚀 Installation
+
+### Clone Repository
+
+```bash
+git clone https://github.com/yourusername/twitter-sentiment-analysis.git
 cd twitter-sentiment-analysis
-Create Virtual Environment
+```
+
+### Create Virtual Environment
+
+```bash
 python -m venv venv
+```
 
-Activate environment:
+### Activate Environment
 
-Windows
+**Windows**
 
+```bash
 venv\Scripts\activate
+```
 
-Linux / Mac
+**Linux / Mac**
 
+```bash
 source venv/bin/activate
-Install Dependencies
+```
+
+### Install Dependencies
+
+```bash
 pip install -r requirements.txt
-▶️ Run Application
+```
+
+---
+
+## ▶️ Run Application
+
+```bash
 streamlit run app.py
+```
 
-Open browser:
+Open in browser:
 
+```text
 http://localhost:8501
-📌 Future Improvements
-Add Neutral sentiment class
-Use deep learning models (LSTM/BERT)
-Live Twitter API integration
-Real-time tweet streaming
-Sentiment visualization dashboards
-👨‍💻 Author
+```
 
-Muhammad Zeeshan
+---
+
+## 🔮 Future Improvements
+
+- Add Neutral sentiment detection
+- Integrate Twitter API
+- Use Deep Learning models (LSTM/BERT)
+- Real-time tweet streaming
+- Interactive dashboards
+
+---
+
+## 👨‍💻 Author
+
+**Muhammad Zeeshan**
 
 AI Automation Engineer | Machine Learning Enthusiast | NLP Developer
 
-LinkedIn: https://www.linkedin.com/in/muhammad-zeeshan-1a9b32261/
+LinkedIn:
+https://www.linkedin.com/in/muhammad-zeeshan-1a9b32261/
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+⭐ If you like this project, don't forget to star the repository!
