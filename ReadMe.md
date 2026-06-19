@@ -197,8 +197,8 @@ This improves loading speed and avoids repeated file processing.
 ### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/twitter-sentiment-analysis.git
-cd twitter-sentiment-analysis
+git clone https://github.com/ZeEshAn-boot/Tweeter-X-Sentimental-Analysis-.git
+cd Tweeter-X-Sentimental-Analysis-
 ```
 
 ### Create Virtual Environment
@@ -226,6 +226,23 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+
+---
+
+## 📥 Prepare TweetClaw Exports
+
+The user search mode can load a local `tweets.csv` file. Use
+`scripts/prepare_tweetclaw_dataset.py` to convert reviewed TweetClaw JSON,
+JSONL, or CSV exports into the Sentiment140-style columns expected by `app.py`.
+
+```bash
+python scripts/prepare_tweetclaw_dataset.py examples/tweetclaw_export.jsonl \
+  --output tweets.csv
+```
+
+Review exports before conversion. Do not commit private account data,
+credentials, or non-public tweets. TweetClaw is available from
+https://github.com/Xquik-dev/tweetclaw.
 
 ---
 
