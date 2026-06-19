@@ -6,6 +6,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
 import nltk
 
+DATASET_FILES = (
+    ('tweets.csv', 'utf-8-sig'),
+    ('tweeter-dataset.zip', 'latin-1'),
+)
+
 # Download stopwords once, using Streamlit's caching
 @st.cache_resource
 def load_stopwords():
@@ -24,18 +29,20 @@ def load_model_and_vectorizer():
 # Load the dataset directly into memory for real user lookup
 @st.cache_data
 def load_dataset():
-    try:
-        # Standard columns matching the Sentiment140 layout
-        df = pd.read_csv(
-            'tweeter-dataset.zip', 
-            encoding='latin-1', 
-            names=['target', 'ids', 'date', 'flag', 'user', 'text']
-        )
-        df['user'] = df['user'].astype(str).str.strip()
-        return df
-    except FileNotFoundError:
-        st.error("Dataset file ('tweeter-dataset.zip') not found in this folder. Please verify the filename.")
-        return None
+    for dataset_file, encoding in DATASET_FILES:
+        try:
+            # Standard columns matching the Sentiment140 layout
+            df = pd.read_csv(
+                dataset_file,
+                encoding=encoding,
+                names=['target', 'ids', 'date', 'flag', 'user', 'text']
+            )
+            df['user'] = df['user'].astype(str).str.strip()
+            return df
+        except FileNotFoundError:
+            continue
+    st.error("Dataset file ('tweets.csv' or 'tweeter-dataset.zip') not found in this folder.")
+    return None
 
 # Define sentiment prediction function
 def predict_sentiment(text, model, vectorizer, stop_words):
@@ -97,7 +104,7 @@ def main():
             if username.strip() == "":
                 st.warning("Please enter a username first.")
             elif df is None:
-                st.error("Database unavailable. Please verify 'tweets.csv' is in your project directory.")
+                st.error("Database unavailable. Please verify 'tweets.csv' or 'tweeter-dataset.zip' is in your project directory.")
             else:
                 # Search dataset for matching user records (case-insensitive)
                 matched_tweets = df[df['user'].str.lower() == username.lower().strip()]
